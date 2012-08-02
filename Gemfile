@@ -7,8 +7,14 @@ gem 'rails', '3.2.1'
 
 gem 'rails-api'
 
-gem 'sqlite3'
 
+group :production do
+  gem 'pg'
+end
+
+group :development, :test do
+  gem 'sqlite3'
+end
 
 gem "rspec-rails", :group => [:test, :development]
 group :test do
@@ -16,6 +22,7 @@ group :test do
   gem "capybara"
   gem "guard-rspec"
 end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
