@@ -1,5 +1,5 @@
 Api::Application.routes.draw do
-    namespace :api do
+  scope :path => 'api' do
        resources :pages do
          collection do
              get 'published'
