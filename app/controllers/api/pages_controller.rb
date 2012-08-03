@@ -1,4 +1,4 @@
-class PagesController < ApplicationController
+class Api::PagesController < ApplicationController
   # GET api/pages.xml
   # GET api/pages.json
   def index
