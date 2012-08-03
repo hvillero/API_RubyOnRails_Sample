@@ -26,17 +26,64 @@
         function addPage(page) {
           $('#pages').append('<li>' + page.title + '</li>');
         }
+        
+         function addPublishedPage(page) {
+            $('#pages_published').append('<li>' + page.title + '</li>');
+          }                   
+          
+           function addUnpublishedPage(page) {
+              $('#pages_unpublished').append('<li>' + page.title + ' | <input type="radio" id="page_'+ page.id + '"name="id" onclick="submitPublish('+ page.id+');$(this).parent().remove();" value="' + page.id + '"> Publish </li> <br>');
+            } 
 
         $('#new_page').submit(function(e) {
-          $.post('/api/pages', $(this).serialize(), addPage);
+          $.post('/api/pages', $(this).serialize(), addUnpublishedPage);
           this.reset();
           e.preventDefault();
         });
-
-        $.getJSON('/api/pages.json', function(pages) {
-          $.each(pages, function() { addPage(this); });
+        
+        $.getJSON('/api/pages/published.json', function(pages) {
+          $.each(pages, function() { addPublishedPage(this); });
         });
-      });
+         
+        $.getJSON('/api/pages/unpublished.json', function(pages) {
+          $.each(pages, function() { addUnpublishedPage(this); });
+        });   
+        
+      });    
+      
+      $("input:radio").click(function() {
+          var Idvalue = $(this).val();
+           $.post('/api/pages/' + Idvalue + '/publish', $(this).serialize(), addPublishedPage);
+            this.reset();
+            e.preventDefault();
+      })    
+               
+       function addPublishedPage(page) {
+          $('#pages_published').append('<li>' + page.title + '</li>');
+        }   
+        
+        function getPubished(){  
+          $.getJSON('/api/pages/unpublished.json', function(pages) {
+            $.each(pages, function() { addUnpublishedPage(this); });
+          });
+        }        
+        
+        function getUnpublished(){
+           $.getJSON('/api/pages/unpublished.json', function(pages) {
+              $.each(pages, function() { addUnpublishedPage(this); });
+            });
+        }
+        
+      function submitPublish(ValId){
+         $('#go-publish').submit(function(e) {
+            $.post('/api/pages/' + ValId + '/publish', $(this).serialize(), addPublishedPage);
+            this.reset();
+            e.preventDefault();
+          });
+        $('#go-publish').submit()     
+        
+        
+      }
     </script>
   </head>
   <body>
@@ -46,10 +93,19 @@
         Title:<br>
         <input type="text" name="page[title]" id="page_title"><br><br>
         Content:<br>
-        <input type="text" name="page[content]" id="page_content"><br><br>
+        <textarea name="page[content]" id="page_content"></textarea><br><br>
         <input type="submit" value="Add">
       </form>
-      <ul id="pages"></ul>
+      <ul id="pages"></ul> 
+      <br><br>
+      <h2>Published</h2>
+      <ul id="pages_published"></ul>
+      <br>
+      <h2>Unpublished</h2> 
+      <form id="go-publish">   
+      <ul id="pages_unpublished"></ul>   
+      <input type="submit" value="publish"> 
+      </form>
     </div>
   </body>
 </html>

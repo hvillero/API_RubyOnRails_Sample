@@ -34,8 +34,11 @@ class Api::PagesController < ApplicationController
   def publish
     if @page = Page.find_by_id(params[:id])
       @page.published_on = Time.now
-      if @page.save
-          head :no_content
+      if @page.save  
+           respond_to do |format|
+                 format.json {render json: @page}
+                 format.xml {render xml: @page}
+               end
       else
         respond_to do |format|
              format.json {render json: @page.errors, status: :unprocessable_entity}
