@@ -1,20 +1,20 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.1'
-gem 'sqlite3'
+#gem 'sqlite3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'rails-api'
 
 
-#group :production do
-  #gem 'pg'
+group :production do
+  gem 'pg'
 
-#end
+end
 
 #group :development, :test do
-#  gem 'sqlite3'
+  gem 'sqlite3'
 #end
 
 gem "rspec-rails", :group => [:test, :development]
