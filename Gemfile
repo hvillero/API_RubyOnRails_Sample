@@ -10,12 +10,11 @@ gem 'rails-api'
 
 group :production do
   gem 'pg'
-
 end
 
-#group :development, :test do
+group :development, :test do
   gem 'sqlite3'
-#end
+end
 
 gem "rspec-rails", :group => [:test, :development]
 group :test do
